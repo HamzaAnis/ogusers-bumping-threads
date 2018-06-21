@@ -117,106 +117,158 @@ namespace Ogusers_bumping_threads
         ChromeDriver chromeDriver;
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (chromeDriver == null)
+            Console.Out.WriteLine(button1.Content);
+            Console.Out.WriteLine(button2.Content);
+            if (button1.Content.Equals("Load Text") || button2.Content.Equals("Load Urls"))
+            {
+                MessageBox.Show("Please select valid text and url file");
+            }
+            else
             {
 
-                Task.Run(() =>
+                var USER = usernameTextBox.Text;
+                string PASSWORD = passwordTextBox.Text;
+                if (chromeDriver == null)
                 {
-                    Dispatcher.Invoke(() =>
-                    {
-                        statustext.Text = "Loading driver";
-                    });
-                    var option = new ChromeOptions();
-                    var driverService = ChromeDriverService.CreateDefaultService();
-                    driverService.HideCommandPromptWindow = true;
 
-                  //  if (hidetxtBox.Text != "show")
-                  //  {
-                        option.AddArgument("--headless");
-                    //}
-                    try
+                    Task.Run(() =>
                     {
-                        chromeDriver = new ChromeDriver(driverService, option);
-                    }
-                    catch
-                    {
-                        Console.Out.WriteLine("Exception");
-                    }
-                    Dispatcher.Invoke(() =>
-                    {
-                        statustext.Text = statustext.Text+"\n"+"Driver loaded";
-                    });
-                    chromeDriver.Navigate().GoToUrl(URL);
-                    System.Threading.Thread.Sleep(10000);
-                    chromeDriver.FindElementByXPath("(//a[@class=\"guestnav\" and text()=\"Login\"])[1]").Click();
-                    System.Threading.Thread.Sleep(2000);
-                    var USER = usernameTextBox.Text;
-                    string PASSWORD = passwordTextBox.Text;
-                    chromeDriver.FindElementByXPath("(//input[@name=\"username\" ])[2]").SendKeys(USER);
-                    chromeDriver.FindElementByXPath("(//input[@name=\"password\" ])[2]").SendKeys(PASSWORD);
-                    chromeDriver.FindElementByXPath("(//input[@name=\"submit\" ])[2]").Click();
-
-                    statustext.Text = statustext.Text + "\n" + "Logged in";
-
-                    System.Threading.Thread.Sleep(2000);
-                    List<string> usedlist = new List<string>();
-                    while (true)
-                    {
-                        foreach (var uRL in urllist)
+                        Dispatcher.Invoke(() =>
                         {
-                            try
+                            statustext.Text = "Loading driver";
+                        });
+                        var option = new ChromeOptions();
+                        var driverService = ChromeDriverService.CreateDefaultService();
+                        driverService.HideCommandPromptWindow = true;
+
+                      //  if (!hidetxtBox.Text.Equals("show"))
+                     //   {
+                            //option.AddArgument("--headless");
+                      //  }
+                        try
+                        {
+                            chromeDriver = new ChromeDriver(driverService, option);
+                        }
+                        catch
+                        {
+                            Console.Out.WriteLine("Exception");
+                        }
+                        Dispatcher.Invoke(() =>
+                        {
+                            statustext.Text = statustext.Text + "\n" + "Driver loaded";
+                        });
+                        chromeDriver.Navigate().GoToUrl(URL);
+                        System.Threading.Thread.Sleep(10000);
+                        chromeDriver.FindElementByXPath("(//a[@class=\"guestnav\" and text()=\"Login\"])[1]").Click();
+                        System.Threading.Thread.Sleep(4000);
+
+
+                        Dispatcher.Invoke(() =>
+                        {
+                            statustext.Text = statustext.Text + "\n" + "Sending " + USER + " " + PASSWORD;
+                        });
+                        Console.Out.WriteLine("Sending username and pass");
+                        try
+                        {
+                            chromeDriver.FindElementByXPath("(//input[@name=\"username\" ])[2]").SendKeys(USER);
+                            chromeDriver.FindElementByXPath("(//input[@name=\"password\" ])[2]").SendKeys(PASSWORD);
+                            chromeDriver.FindElementByXPath("(//input[@name=\"submit\" ])[2]").Click();
+                        }
+                        catch
+                        {
+                            Console.Out.WriteLine("Exception while sending keys");
+                        }
+                        Dispatcher.Invoke(() =>
+                        {
+                            statustext.Text = statustext.Text + "\n" + "Logged in";
+                        });
+
+                        System.Threading.Thread.Sleep(2000);
+                        List<string> usedlist = new List<string>();
+                        while (true)
+                        {
+                            foreach (var uRL in urllist)
                             {
-                                chromeDriver.Navigate().GoToUrl(uRL);
-                                if (chromeDriver.PageSource.Contains("404 not"))
+                                try
                                 {
-                                    throw new Exception("Not loaded");
-                                }
-                            }
-                            catch
-                            {
-                                System.Threading.Thread.Sleep(2000);
-                                chromeDriver.Navigate().GoToUrl(uRL);
-                                statustext.Text = statustext.Text + "\n" + uRL + " Not found";
-                            }
-                            statustext.Text = statustext.Text + "\n" + "Getting";
-                            System.Threading.Thread.Sleep(2000);
-                            if (usedlist.Count == textlist.Count)
-                            {
-                                usedlist.Clear();
-                            }
-                            string next_text;
-                            try
-                            {
-                                Random rnd = new Random();
-                                while (true)
-                                {
-                                    int r = rnd.Next(textlist.Count);
-                                    next_text = textlist[r];
-                                    if (!usedlist.Contains(next_text))
+                                    chromeDriver.Navigate().GoToUrl(uRL);
+                                    if (chromeDriver.PageSource.Contains("404 not"))
                                     {
-                                        next_text = textlist[r];
+                                        throw new Exception("Not loaded");
                                     }
                                 }
-
+                                catch
+                                {
+                                    System.Threading.Thread.Sleep(2000);
+                                    chromeDriver.Navigate().GoToUrl(uRL);
+                                    Dispatcher.Invoke(() =>
+                                    {
+                                        statustext.Text = statustext.Text + "\n" + uRL + " Not found";
+                                    });
+                                }
+                                Dispatcher.Invoke(() =>
+                                {
+                                    statustext.Text = statustext.Text + "\n" + "Getting";
+                                });
+                                System.Threading.Thread.Sleep(2000);
+                                if (usedlist.Count == textlist.Count)
+                                {
+                                    usedlist.Clear();
+                                }
+                                string next_text;
+                                try
+                                {
+                                    Random rnd = new Random();
+                                    while (true)
+                                    {
+                                        int r = rnd.Next(textlist.Count);
+                                        next_text = textlist[r];
+                                        if (!usedlist.Contains(next_text))
+                                        {
+                                            next_text = textlist[r];
+                                            break;
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                    next_text = textlist[0];
+                                }
+                                chromeDriver.FindElementByXPath("//textarea[@id=\"message\"]").SendKeys(next_text);
+                                System.Threading.Thread.Sleep(10000);
+                                chromeDriver.FindElementByXPath("//input[@id=\"quick_reply_submit\"]").Click();
+                                Dispatcher.Invoke(() =>
+                                {
+                                    statustext.Text = statustext.Text + "\n" + "Currently posted \"" + next_text + "\" on" + uRL;
+                                });
+                                System.Threading.Thread.Sleep(2000);
 
                             }
-                            catch
+                            Dispatcher.Invoke(() =>
                             {
-                                next_text = textlist[0];
-                            }
-                            chromeDriver.FindElementByXPath("//textarea[@id=\"message\"]").SendKeys(next_text);
-                            System.Threading.Thread.Sleep(10000);
-                            chromeDriver.FindElementByXPath("//input[@id=\"quick_reply_submit\"]").Click();
-                            System.Threading.Thread.Sleep(2000);
-
+                                statustext.Text = statustext.Text + "\n" + "Sleeping for 2 hours";
+                            });
+                            //print_wait();
                         }
-                        statustext.Text = statustext.Text + "\n" + "Sleeping for 2 hours";
-                    }
-                });
-
+                    });
+                }
             }
         }
+        /*
+        private void print_wait()
+        {
+            int nxt = 3601;
+            while (nxt > 0)
+            {
+                nxt -= 1;
+                Dispatcher.Invoke(() =>
+                {
+                    statustext.Text = statustext + "\n" + "NEXT RUN IN :: "+nxt; 
+                    statustext.Text = statustext + "\n" + "***********************";
+                });
+            }
 
+        }*/
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
