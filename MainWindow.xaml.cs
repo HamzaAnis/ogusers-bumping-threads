@@ -119,6 +119,18 @@ namespace Ogusers_bumping_threads
         {
             Console.Out.WriteLine(button1.Content);
             Console.Out.WriteLine(button2.Content);
+            int delay = 30;
+            if (Int32.TryParse(delaytxtBox.Text, out delay))
+            {
+                if (delay < 30)
+                {
+                    delay = 30;
+                }
+            }
+            else
+            {
+                delay = 30;
+            }
             if (button1.Content.Equals("Load Text") || button2.Content.Equals("Load Urls"))
             {
                 MessageBox.Show("Please select valid text and url file");
@@ -128,6 +140,7 @@ namespace Ogusers_bumping_threads
 
                 var USER = usernameTextBox.Text;
                 string PASSWORD = passwordTextBox.Text;
+                string factorAuth = factorAuthButn.Text;
                 if (chromeDriver == null)
                 {
 
@@ -141,10 +154,10 @@ namespace Ogusers_bumping_threads
                         var driverService = ChromeDriverService.CreateDefaultService();
                         driverService.HideCommandPromptWindow = true;
 
-                      //  if (!hidetxtBox.Text.Equals("show"))
-                     //   {
-                            //option.AddArgument("--headless");
-                      //  }
+                        if (!hidetxtBox.Text.Equals("show"))
+                        {
+                            option.AddArgument("--headless");
+                        }
                         try
                         {
                             chromeDriver = new ChromeDriver(driverService, option);
@@ -155,7 +168,7 @@ namespace Ogusers_bumping_threads
                         }
                         Dispatcher.Invoke(() =>
                         {
-                            statustext.Text = statustext.Text + "\n" + "Driver loaded";
+                            statustext.Text = "Driver loaded" + "\n" + statustext.Text + "\n";
                         });
                         chromeDriver.Navigate().GoToUrl(URL);
                         System.Threading.Thread.Sleep(10000);
@@ -165,13 +178,17 @@ namespace Ogusers_bumping_threads
 
                         Dispatcher.Invoke(() =>
                         {
-                            statustext.Text = statustext.Text + "\n" + "Sending " + USER + " " + PASSWORD;
+                            statustext.Text = "Sending " + USER + " " + PASSWORD + "\n" + statustext.Text + "\n\n";
                         });
                         Console.Out.WriteLine("Sending username and pass");
                         try
                         {
                             chromeDriver.FindElementByXPath("(//input[@name=\"username\" ])[2]").SendKeys(USER);
                             chromeDriver.FindElementByXPath("(//input[@name=\"password\" ])[2]").SendKeys(PASSWORD);
+                            if (!factorAuth.Equals(string.Empty))
+                            {
+                                chromeDriver.FindElementByXPath("//*[@id=\"quick_login\"]/form/table/tbody/tr[4]/td/div/label/input").SendKeys(factorAuth);
+                            }
                             chromeDriver.FindElementByXPath("(//input[@name=\"submit\" ])[2]").Click();
                         }
                         catch
@@ -180,7 +197,7 @@ namespace Ogusers_bumping_threads
                         }
                         Dispatcher.Invoke(() =>
                         {
-                            statustext.Text = statustext.Text + "\n" + "Logged in";
+                            statustext.Text = "Logged in" + "\n" + statustext.Text + "\n\n";
                         });
 
                         System.Threading.Thread.Sleep(2000);
@@ -203,13 +220,14 @@ namespace Ogusers_bumping_threads
                                     chromeDriver.Navigate().GoToUrl(uRL);
                                     Dispatcher.Invoke(() =>
                                     {
-                                        statustext.Text = statustext.Text + "\n" + uRL + " Not found";
+                                        statustext.Text = uRL + " Not found" + "\n" + statustext.Text + "\n\n";
                                     });
                                 }
+                                /*
                                 Dispatcher.Invoke(() =>
                                 {
-                                    statustext.Text = statustext.Text + "\n" + "Getting";
-                                });
+                                    statustext.Text = "Getting" + "\n" + statustext.Text + "\n";
+                                });*/
                                 System.Threading.Thread.Sleep(2000);
                                 if (usedlist.Count == textlist.Count)
                                 {
@@ -239,36 +257,41 @@ namespace Ogusers_bumping_threads
                                 chromeDriver.FindElementByXPath("//input[@id=\"quick_reply_submit\"]").Click();
                                 Dispatcher.Invoke(() =>
                                 {
-                                    statustext.Text = statustext.Text + "\n" + "Currently posted \"" + next_text + "\" on" + uRL;
+                                    statustext.Text = "Currently posted \"" + next_text + "\" on :: " + uRL + "\n" + statustext.Text + "\n\n";
                                 });
-                                System.Threading.Thread.Sleep(2000);
+                                System.Threading.Thread.Sleep(20000);
 
                             }
                             Dispatcher.Invoke(() =>
                             {
-                                statustext.Text = statustext.Text + "\n" + "Sleeping for 2 hours";
+                                statustext.Text = "Sleeping for " + delay + " minutes" + "\n" + statustext.Text + "\n";
                             });
-                            //print_wait();
+                            print_wait(delay);
                         }
                     });
                 }
             }
         }
-        /*
-        private void print_wait()
+
+        private void print_wait(int delay)
         {
-            int nxt = 3601;
+            int nxt = delay * 60;
             while (nxt > 0)
             {
                 nxt -= 1;
                 Dispatcher.Invoke(() =>
                 {
-                    statustext.Text = statustext + "\n" + "NEXT RUN IN :: "+nxt; 
-                    statustext.Text = statustext + "\n" + "***********************";
+                    statustext.Text = statustext + "\n" + "NEXT RUN IN :: " + nxt;
                 });
+                System.Threading.Thread.Sleep(1000);
             }
 
-        }*/
+            Dispatcher.Invoke(() =>
+            {
+                statustext.Text = statustext + "\n" + "***********************";
+            });
+
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
