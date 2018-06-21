@@ -9,8 +9,8 @@
         Closing="DataWindow_Closing"
         Title="Ogusers Thread Posting" Height="413.37" Width="426.749">
     <Grid HorizontalAlignment="Left" Margin="0,0,0,2.4" Width="422">
-        <TextBox Text="hamzaanis9514@gmail.com" Name="usernameTextBox" HorizontalAlignment="Left" Height="23" Margin="33,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" TextChanged="TextBox_TextChanged"/>
-        <TextBox Text="l1SJ70oyAh34eKFTIKux" Name="passwordTextBox" HorizontalAlignment="Left" Height="23" Margin="33,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158"/>
+        <TextBox Name="usernameTextBox" HorizontalAlignment="Left" Height="23" Margin="33,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" TextChanged="TextBox_TextChanged"/>
+        <TextBox Name="passwordTextBox" HorizontalAlignment="Left" Height="23" Margin="33,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158"/>
         <TextBox Text="30" Name="delaytxtBox" HorizontalAlignment="Left" Height="23" Margin="238,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Opacity="0.7"/>
         <TextBox Name="hidetxtBox" HorizontalAlignment="Left" Height="23" Margin="238,89,-27,0" TextWrapping="Wrap" Text="show/hide" VerticalAlignment="Top" Width="158" Opacity="0.885"/>
         <Label Content="Username" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,28,0,0" Opacity="0.6" FontSize="8"/>

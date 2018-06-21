@@ -141,6 +141,7 @@ namespace Ogusers_bumping_threads
                 var USER = usernameTextBox.Text;
                 string PASSWORD = passwordTextBox.Text;
                 string factorAuth = factorAuthButn.Text;
+                string toShowCheck = hidetxtBox.Text;
                 if (chromeDriver == null)
                 {
 
@@ -154,7 +155,7 @@ namespace Ogusers_bumping_threads
                         var driverService = ChromeDriverService.CreateDefaultService();
                         driverService.HideCommandPromptWindow = true;
 
-                        if (!hidetxtBox.Text.Equals("show"))
+                        if (!toShowCheck.Equals("show"))
                         {
                             option.AddArgument("--headless");
                         }
@@ -257,7 +258,7 @@ namespace Ogusers_bumping_threads
                                 chromeDriver.FindElementByXPath("//input[@id=\"quick_reply_submit\"]").Click();
                                 Dispatcher.Invoke(() =>
                                 {
-                                    statustext.Text = "Currently posted \"" + next_text + "\" on :: " + uRL + "\n" + statustext.Text + "\n\n";
+                                    statustext.Text = "Currently posted \"" + next_text + "\" on " + uRL + "\n" + statustext.Text + "\n\n";
                                 });
                                 System.Threading.Thread.Sleep(20000);
 
