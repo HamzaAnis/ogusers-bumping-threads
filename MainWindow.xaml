@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ogusers_bumping_threads"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        ResizeMode="NoResize"
+        Closing="DataWindow_Closing"
+        Title="Ogusers Thread Posting" Height="291.77" Width="337.949">
     <Grid>
-        
+        <TextBox Name="usernameTextBox" HorizontalAlignment="Left" Height="23" Margin="33,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="hamzaanis9514@gmail.com" TextChanged="TextBox_TextChanged"/>
+        <TextBox Name="passwordTextBox" HorizontalAlignment="Left" Height="23" Margin="33,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="l1SJ70oyAh34eKFTIKux"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="183,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="hidetxtBox" HorizontalAlignment="Left" Height="23" Margin="183,89,0,0" TextWrapping="Wrap" Text="show/hide" VerticalAlignment="Top" Width="120" Opacity="0.885"/>
+        <Label Content="Username" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,28,0,0" Opacity="0.6" FontSize="8"/>
+        <Label Content="Posting delay" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,28,0,0" Opacity="0.6" FontSize="8"/>
+        <Label Content="Password" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,70,0,0" Opacity="0.6" FontSize="8"/>
+        <Label Content="To Show driver" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,76,0,0" Opacity="0.6" FontSize="8"/>
+        <Label Content="Configuration" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+        <Button Name="button1" Content="Load Text" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="33,132,0,0" Click="Button_Click"/>
+        <Button Name="button2" Content="Load Urls" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="183,132,0,0" Click="Button_Click_1"/>
+        <TextBox Name="statustext" HorizontalAlignment="Left" Height="42" Margin="33,210,0,0" TextWrapping="Wrap" Text="Status" VerticalAlignment="Top" Width="270" FontStyle="Italic" IsReadOnly="False" FontFamily="Arial" FontSize="10" Background="#F8EEEEEE"/>
+        <Button Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="33,172,0,0" Click="Button_Click_2"/>
+        <Button Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="183,172,0,0"/>
+        <ToolBar HorizontalAlignment="Left" Height="100" Margin="170,252,0,-89.6" VerticalAlignment="Top" Width="100"/>
+
     </Grid>
 </Window>
